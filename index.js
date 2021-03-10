@@ -32,8 +32,7 @@ client.connect((err) => {
 			img: Buffer.from(encImg, "base64"),
 		};
 
-		const service = { title, description, image };
-		servicesCollection.insertOne(service).then((result) => {
+		servicesCollection.insertOne({ description, title, image }).then((result) => {
 			res.send(result.insertedCount > 0);
 		});
 	});
