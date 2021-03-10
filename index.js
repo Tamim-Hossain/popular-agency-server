@@ -17,7 +17,20 @@ client.connect((err) => {
 
 	//POST
 	app.post("/addService", (req, res) => {
-		const service = req.body;
+		const title = req.body.title;
+		const description = req.body.description;
+		const file = req.files.file;
+
+		const newImg = file.data;
+		const encImg = newImg.toString("base64");
+
+		const image = {
+			contentType: file.mimetype,
+			size: file.size,
+			img: Buffer.from(encImg, "base64"),
+		};
+
+		const service = { ...title, ...description, ...image };
 		servicesCollection.insertOne(service).then((result) => {
 			res.send(result.insertedCount > 0);
 		});
